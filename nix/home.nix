@@ -31,7 +31,7 @@
 
     # Reuse vtsls's bundled TypeScript 5 SDK for embedded-language servers;
     # the system TypeScript 7 package does not include the JavaScript SDK.
-    TYPESCRIPT_SDK = "${pkgs.vtsls}/lib/vtsls-language-server/node_modules/typescript/lib";
+    TYPESCRIPT_SDK = "${pkgs.vtsls}/lib/vtsls-language-server/packages/service/node_modules/typescript/lib";
   };
 
   home.sessionPath = [

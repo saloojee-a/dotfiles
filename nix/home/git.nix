@@ -8,8 +8,8 @@
 
   settings = {
     user = {
-      name = "asaloojee";
-      email = "asaloojee@omniwerx.io";
+      name = "saloojee-a";
+      email = "a@saloojee.com";
     };
     init.defaultBranch = "main";
     pull.rebase = true;

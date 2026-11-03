@@ -3,6 +3,10 @@
     enable = true;
     taps = ["anomalyco/tap"];
     brews = [
+      {
+        name = "devvmhq/tap/devvm";
+        trusted = true;
+      }
       "hunk"
       "mas"
       "mole"
@@ -11,7 +15,7 @@
     ];
 
     # Ownership rule:
-    # - Nix owns CLI/dev tooling and open fonts, except Hunk (Homebrew)
+    # - Nix owns CLI/dev tooling and open fonts, except devvm and Hunk (Homebrew)
     # - Homebrew owns GUI/macOS apps + proprietary font exceptions
     casks = [
       # GUI/macOS apps
@@ -29,8 +33,6 @@
       "obsidian"
       # "ollama"
       "proton-drive"
-      "proton-mail"
-      "proton-pass"
       "protonvpn"
       "raycast"
       "sf-symbols"
