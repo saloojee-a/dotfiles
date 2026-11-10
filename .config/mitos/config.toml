@@ -1,0 +1,52 @@
+theme = "tokyonight"
+
+[terminal]
+true-color = true
+
+[editor]
+icons = true
+# Mitos cannot disable comment continuation for o/O separately from Enter.
+continue-comments = false
+cursor.shape.insert = "bar"
+clipboard.default-yank-register = "+"
+file-picker.hidden = false
+completion.preview-insert = false
+completion.word.trigger-length = 2
+diagnostics.end-of-line.severity = "warning"
+diagnostics.inline.cursor-line = "disable"
+
+[editor.statusline]
+left = ["mode", "separator", "branch", "diagnostics", "separator", "file-base-name", "file-modification-indicator"]
+right = ["file-encoding", "file-line-ending", "file-type", "separator", "position-percentage", "position"]
+separator = "|"
+mode = { color = true, normal = "NORMAL", insert = "INSERT", select = "SELECT" }
+
+[keys.insert]
+C-e = "goto_line_end_newline"
+
+[keys.popup]
+C-b = "scroll_up"
+C-f = "scroll_down"
+
+[keys.normal]
+K = "hover"
+"-" = "file_explorer_in_current_buffer_directory"
+s = "goto_word"
+"[" = { b = "goto_previous_buffer", c = "vcs_goto_previous_change" }
+"]" = { b = "goto_next_buffer", c = "vcs_goto_next_change" }
+
+[keys.normal.space]
+"/" = "toggle_comments"
+o = "file_explorer_in_current_buffer_directory"
+d = "diagnostics_picker"
+b = { d = ":buffer-close" }
+f = { label = "Find", f = "file_picker", g = "search_picker_in_current_working_directory", b = "buffer_picker", h = "command_palette" }
+c = { label = "Code", a = "code_action", f = ":format" }
+r = { label = "Refactor", n = "rename_symbol" }
+h = { label = "Git hunk", p = "vcs_show_change", r = ":vcs-restore-change", b = "vcs_blame_line" }
+
+[keys.select]
+K = "hover"
+s = "extend_to_word"
+"/" = { "/" = ["search_selection", "search_next"] }
+space."/" = "toggle_comments"

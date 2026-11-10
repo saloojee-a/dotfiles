@@ -18,7 +18,7 @@
   "lastChangelogVersion": "1.5.0",
   "deviceId": "cb97121f-bbb4-4e70-99b6-f792c3fd06f9",
   "extensionChangelogVersions": {
-    "{\"source\":\"npm:pi-lens\",\"scope\":\"user\"}": "4.4.4",
-    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.44.0"
+    "{\"source\":\"npm:pi-lens\",\"scope\":\"user\"}": "4.4.11",
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.47.0"
   }
 }
