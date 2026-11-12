@@ -60,11 +60,11 @@ return {
 	config = function(_, opts)
 		require("blink.cmp").setup(opts)
 
-		local menu = vim.api.nvim_get_hl(0, { name = "Pmenu", link = false })
+		local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
 		local float_border = vim.api.nvim_get_hl(0, { name = "FloatBorder", link = false })
 
 		vim.api.nvim_set_hl(0, "BlinkCmpMenu", { link = "Pmenu" })
-		vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { fg = float_border.fg, bg = menu.bg })
+		vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { fg = float_border.fg, bg = normal.bg })
 		vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { link = "Visual" })
 		vim.api.nvim_set_hl(0, "BlinkCmpDoc", { link = "NormalFloat" })
 		vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { link = "FloatBorder" })
