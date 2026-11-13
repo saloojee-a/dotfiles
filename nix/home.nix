@@ -8,6 +8,7 @@
   imports = [
     ./home/fastfetch.nix
     ./home/pi-agent.nix
+    ./home/codex.nix
   ];
   home.username = username;
   home.homeDirectory = homeDirectory;

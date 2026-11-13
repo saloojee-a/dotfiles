@@ -1,6 +1,7 @@
 {
   pkgs,
   piNix,
+  inputs,
   ...
 }: {
   # Shared by the macOS workstation and the headless NixOS VM.
@@ -19,6 +20,7 @@
     pkgs.tree
     pkgs.superfile
     piNix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Version control, secrets, and containers
     pkgs.doppler

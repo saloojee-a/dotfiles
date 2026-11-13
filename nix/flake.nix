@@ -11,6 +11,8 @@
     # Track Brew main because rolling cask definitions can require newer DSL features.
     nix-homebrew.inputs.brew-src.url = "github:Homebrew/brew";
     pi-nix.url = "github:sadjow/pi-nix";
+    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+    codex-cli-nix.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
