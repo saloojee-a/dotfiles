@@ -1,5 +1,8 @@
 .DS_Store
 
+# Keep Codex project trust and runtime state private.
+/.codex/config.toml
+
 **/.DS_Store
 
 # Claude Code runtime directories (keep settings.json and settings.local.json)

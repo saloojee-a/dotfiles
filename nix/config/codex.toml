@@ -10,12 +10,3 @@ enabled = false
 
 [mcp_servers.superlogical]
 url = "https://www.superlogical.com/rex/community-mcp"
-
-[tui]
-screen_reader_detection_done = true
-
-[tui.model_availability_nux]
-"gpt-6.1-sol" = 1
-
-[projects."/Users/asaloojee/dotfiles"]
-trust_level = "trusted"

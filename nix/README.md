@@ -240,6 +240,10 @@ The bootstrap deliberately does not adopt or overwrite existing editor files.
 
 ## Subsequent rebuilds (user-run)
 
+Codex defaults live in `nix/config/codex.toml`, installed by Nix at
+`/etc/codex/config.toml`. Trusted repositories and runtime state stay in the
+private, writable `~/.codex/config.toml`, which Home Manager leaves unmanaged.
+
 ```sh
 # On the Mac (unchanged):
 sudo -i darwin-rebuild switch --flake ~/dotfiles/nix#mac

@@ -9,6 +9,8 @@
     ./rust.nix
   ];
 
+  environment.etc."codex/config.toml".source = ../config/codex.toml;
+
   nixpkgs.overlays = [inputs.rust-overlay.overlays.default];
   nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.settings = {
