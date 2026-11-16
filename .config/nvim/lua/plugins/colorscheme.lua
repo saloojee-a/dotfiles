@@ -26,6 +26,23 @@ return {
 				-- Keep floating cards distinct from the editor backdrop.
 				hl.FloatBorder = { fg = colors.fg_gutter, bg = colors.bg }
 				hl.FloatTitle = { fg = colors.blue, bg = colors.bg, bold = true }
+
+				hl.GitSignsAdd = { fg = colors.green }
+				hl.GitSignsChange = { fg = colors.blue }
+				hl.GitSignsDelete = { fg = colors.red }
+				hl.GitSignsChangedelete = { fg = colors.yellow }
+				hl.GitSignsUntracked = { fg = colors.comment }
+
+				-- Lualine reads these groups for its diff component.
+				hl.LuaLineDiffAdd = { fg = colors.green1 }
+				hl.LuaLineDiffChange = { fg = colors.blue }
+				hl.LuaLineDiffDelete = { fg = colors.red }
+
+				hl.BlinkCmpMenu = { link = "Pmenu" }
+				hl.BlinkCmpMenuBorder = { fg = colors.fg_gutter, bg = colors.bg }
+				hl.BlinkCmpMenuSelection = { link = "Visual" }
+				hl.BlinkCmpDoc = { link = "NormalFloat" }
+				hl.BlinkCmpDocBorder = { link = "FloatBorder" }
 			end,
 		})
 		vim.cmd.colorscheme("tokyonight-night")

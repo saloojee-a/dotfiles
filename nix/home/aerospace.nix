@@ -129,6 +129,10 @@
         "if".app-id = "ch.protonmail.desktop";
         run = "move-node-to-workspace 1";
       }
+      {
+        "if".app-id = "com.leomehlig.today";
+        run = "layout floating";
+      }
     ];
   };
 }

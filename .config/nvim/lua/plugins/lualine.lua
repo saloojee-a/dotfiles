@@ -5,54 +5,36 @@ return {
 	event = "VeryLazy",
 	opts = {
 		options = {
-			icons_enabled = true,
 			theme = "auto",
 			section_separators = { left = "\u{e0b4}", right = "\u{e0b6}" },
 			component_separators = { left = "|", right = "|" },
 		},
 		sections = {
 			lualine_a = {
-				{ "mode", padding = { left = 1, right = 1 }, color = { gui = "bold" } },
+				{ "mode", color = { gui = "bold" } },
 			},
 			lualine_b = {
-				{ "branch", padding = { left = 1, right = 1 }, color = { gui = "bold" } },
-				{
-					"diff",
-					symbols = { added = "+", modified = "~", removed = "-" },
-					diff_color = {
-						added = { fg = "#73daca" },
-						modified = { fg = "#7aa2f7" },
-						removed = { fg = "#f7768e" },
-					},
-					padding = { left = 1, right = 1 },
-				},
-				{ "diagnostics", padding = { left = 1, right = 1 }, color = { gui = "bold" } },
+				{ "branch", color = { gui = "bold" } },
+				"diff",
+				{ "diagnostics", color = { gui = "bold" } },
 			},
 			lualine_c = {
-				{ "filename", path = 0, padding = { left = 1, right = 1 } },
+				{ "filename", path = 0 },
 			},
 			lualine_x = {
-				{
-					"encoding",
-					padding = { left = 1, right = 1 },
-				},
+				"encoding",
 				{
 					"fileformat",
 					symbols = { unix = "" },
-					padding = { left = 1, right = 1 },
 					color = { gui = "bold" },
 				},
-				{
-					"filetype",
-					icon_only = false,
-					padding = { left = 1, right = 1 },
-				},
+				"filetype",
 			},
 			lualine_y = {
-				{ "progress", padding = { left = 1, right = 1 }, color = { gui = "bold" } },
+				{ "progress", color = { gui = "bold" } },
 			},
 			lualine_z = {
-				{ "location", padding = { left = 1, right = 1 }, color = { gui = "bold" } },
+				{ "location", color = { gui = "bold" } },
 			},
 		},
 	},
