@@ -6,7 +6,7 @@
   `omnx-mac`. Homebrew, GUI applications, fonts, Aerospace, Ghostty, SketchyBar,
   and macOS settings remain Mac-only.
 - `nixosConfigurations.dev`: an ARM64 NixOS VM named `dev`, with user
-  `asaloojee`, Fish, Home Manager, Tailscale SSH, and Docker. No desktop environment,
+  `asaloojee`, Nushell, Home Manager, Tailscale SSH, and Docker. No desktop environment,
   display server, or GUI applications are enabled. Rex runs on the Mac, not
   inside the VM.
 - `modules/shared.nix`: common Nix settings, Rust overlay, package imports,
@@ -24,7 +24,7 @@
 
 The Mac flake selector remains `#mac`; the root justfile's `rebuild` recipe
 remains Mac-specific. For VM rebuilds, use the explicit `path:` command below:
-the current Fish `rebuild` alias uses a Git-backed reference that excludes the
+the current Nushell `rebuild` alias uses a Git-backed reference that excludes the
 ignored hardware file.
 
 ## Package review
@@ -35,7 +35,7 @@ Python runtimes are new shared additions.
 | Scope | Tools |
 | --- | --- |
 | Shared terminal/editor | Neovim, Pi coding agent, btop, fastfetch, fd, ripgrep, jless, jq, just, OpenSSH, Stow, tree, Superfile |
-| Shared Home Manager tools | Fish, Git + Git LFS, Jujutsu, bat, eza, fzf, Starship, zoxide, direnv + nix-direnv |
+| Shared Home Manager tools | Nushell, Git + Git LFS, Jujutsu, bat, eza, fzf, zoxide, direnv + nix-direnv |
 | Shared version control/secrets/containers | GitHub CLI, git-filter-repo, gitleaks, Doppler, GnuPG, YubiKey Manager, lazydocker |
 | Shared languages/package managers | Go, Node.js, pnpm, Python 3, uv, PHP Composer, nightly Rust toolchain |
 | Shared formatting/linting/parsing | Alejandra, ast-grep, oxfmt, oxlint, Prettier, Ruff, StyLua, tree-sitter |
@@ -253,13 +253,12 @@ sudo nixos-rebuild switch --no-write-lock-file \
   --flake "path:$HOME/dotfiles?dir=nix#dev"
 ```
 
-Use the explicit VM command rather than the current Fish `rebuild` alias.
+Use the explicit VM command rather than the current Nushell `rebuild` alias.
 Keep `system.stateVersion` at its initial value when updating inputs. A newer
 NixOS package version does not require changing this compatibility baseline.
 
 Keep the local password and UTM serial console as recovery paths if Tailscale,
-DNS, enrollment, or policy prevents SSH. The VM uses OSC 52 for Fish's copy-command
-shortcut; the connecting terminal must permit OSC 52 to reach the Mac clipboard.
+DNS, enrollment, or policy prevents SSH.
 
 References: [UTM](https://docs.getutm.app/),
 [Tailscale SSH](https://tailscale.com/kb/1193/tailscale-ssh), and

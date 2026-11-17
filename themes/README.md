@@ -1,7 +1,7 @@
 # Tokyo Night Night: shared OKLCH palette
 
 Edit **`tokyonight-night.oklch.json`**, then run `just palette` from the repo root.
-This is the only hand-maintained color palette for Rex, Starship, and Neovim.
+This is the only hand-maintained color palette for Rex, Nushell, and Neovim.
 `@name` / `@nested.name` aliases share colors rather than duplicating values.
 
 The baseline is [Tokyo Night Night](https://github.com/folke/tokyonight.nvim),
@@ -14,7 +14,7 @@ color exactly. This is a faithful conversion, not a palette redesign.
 ## Generated outputs
 
 - `.config/nvim/tokyonight-night.json`: shared RGB palette. Neovim reads it at
-  theme load; `nix/home/starship.nix` reads the same file during Nix evaluation.
+  theme load; `nix/home/nushell.nix` reads the same file during Nix evaluation.
 - `themes/generated/Tokyo Night Night OKLCH`: Ghostty-format theme for Rex,
   including ANSI slots 0–15, background, foreground, cursor, and selection.
   Slots 16–255 retain the standard terminal defaults.
@@ -44,24 +44,16 @@ its palette with the shared snapshot. Theme caching is disabled so palette edits
 are picked up when the colorscheme is reloaded. Existing typography and floating
 border/title overrides remain in place.
 
-### Starship
+### Nushell
 
 Run your usual **`just rebuild`** yourself to activate the Nix-managed config.
-The agent does not overwrite `~/.config/starship.toml` or run a privileged rebuild.
+The agent does not overwrite deployed Nushell files or run a privileged rebuild.
 Ensure new files are included in your normal jj/Git working-copy workflow before
 using the Git-backed flake; Nix excludes untracked files from Git flake inputs.
 
-All prompt colors now come from the shared JSON. `gray` maps to `dark5` rather
-than the much dimmer Tokyo Night comment color, for legibility of VCS status.
-The entire Starship color change is:
-
-| Role | Before | After |
-| --- | --- | --- |
-| Directory blue | `#58a6ff` | `#7aa2f7` (`blue`) |
-| Success purple | `#bc8cff` | `#9d7cd8` (`purple`) |
-| Error red | `#ff7b72` | `#f7768e` (`red`) |
-| Duration yellow | `#d29922` | `#e0af68` (`yellow`) |
-| VCS gray | `#6e7681` | `#737aa2` (`dark5`) |
+Nushell's syntax, table, and prompt colors come from the shared JSON. The native
+prompt adds Git/jj status, using `dark5` for legibility. No separate prompt
+package is required.
 
 ### Rex
 

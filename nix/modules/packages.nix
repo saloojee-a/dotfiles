@@ -14,6 +14,7 @@
     pkgs.jq
     pkgs.just
     pkgs.neovim
+    pkgs.nushell
     pkgs.openssh
     pkgs.ripgrep
     pkgs.stow

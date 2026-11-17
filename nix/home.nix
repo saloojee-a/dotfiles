@@ -1,4 +1,5 @@
 {
+  config,
   homeDirectory,
   pkgs,
   lib,
@@ -19,6 +20,19 @@
   gtk.gtk4.theme = null;
 
   programs.home-manager.enable = true;
+
+  # Keep Nushell minimal; opt into individual integrations below.
+  home.shell.enableNushellIntegration = false;
+
+  # A fresh macOS login may not have XDG_CONFIG_HOME until env.nu loads it.
+  home.file = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
+    "Library/Application Support/nushell/env.nu".text = ''
+      source "${config.xdg.configHome}/nushell/env.nu"
+    '';
+    "Library/Application Support/nushell/config.nu".text = ''
+      source "${config.xdg.configHome}/nushell/config.nu"
+    '';
+  };
 
   home.sessionVariables = {
     LC_ALL = "en_CA.UTF-8";
@@ -48,18 +62,16 @@
     aerospace = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (import ./home/aerospace.nix {inherit pkgs;});
     bat = import ./home/bat.nix {inherit pkgs;};
     eza = import ./home/eza.nix {inherit pkgs;};
-    fish = import ./home/fish.nix {inherit lib pkgs;};
     fzf = import ./home/fzf.nix {inherit pkgs;};
     ghostty = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (import ./home/ghostty.nix);
     git = import ./home/git.nix {inherit pkgs;};
     jujutsu = import ./home/jujutsu.nix {inherit pkgs;};
+    nushell = import ./home/nushell.nix {inherit lib pkgs;};
     superfile = import ./home/superfile.nix;
-    zoxide = import ./home/zoxide.nix {inherit pkgs;};
-    starship = import ./home/starship.nix {inherit pkgs lib;};
+    zoxide = (import ./home/zoxide.nix {inherit pkgs;}) // {enableNushellIntegration = true;};
 
     direnv = {
       enable = true;
-      enableFishIntegration = true;
       nix-direnv.enable = true;
     };
   };

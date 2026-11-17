@@ -1,6 +1,7 @@
 {
   inputs,
   homeDirectory,
+  pkgs,
   username,
   ...
 }: {
@@ -10,6 +11,7 @@
   ];
 
   environment.etc."codex/config.toml".source = ../config/codex.toml;
+  environment.shells = [pkgs.nushell];
 
   nixpkgs.overlays = [inputs.rust-overlay.overlays.default];
   nix.registry.nixpkgs.flake = inputs.nixpkgs;

@@ -20,7 +20,7 @@
   users.users.${username} = {
     isNormalUser = true;
     home = homeDirectory;
-    shell = pkgs.fish;
+    shell = pkgs.nushell;
     extraGroups = ["wheel" "docker" "fido"];
   };
 
@@ -30,8 +30,6 @@
   services.udev.extraRules = ''
     SUBSYSTEM=="hidraw", ENV{ID_FIDO_TOKEN}=="1", ATTRS{idVendor}=="1050", GROUP="fido", MODE="0660"
   '';
-
-  programs.fish.enable = true;
 
   # Support generic Linux executables downloaded by development tools.
   programs.nix-ld.enable = true;

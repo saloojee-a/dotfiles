@@ -71,10 +71,9 @@
           users.users.${username} = {
             name = username;
             home = homeDirectory;
-            shell = pkgs.fish;
+            shell = pkgs.nushell;
           };
 
-          programs.fish.enable = true;
           security.pam.services.sudo_local.touchIdAuth = true;
 
           system.configurationRevision = self.rev or self.dirtyRev or null;
