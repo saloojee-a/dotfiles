@@ -30,6 +30,7 @@
       "handbrake-app"
       "mos"
       "obsidian"
+      "paper-design"
       "proton-drive"
       "protonvpn"
       "raycast"
@@ -38,6 +39,7 @@
       "status-trio"
       "tailscale-app"
       "utm"
+      "zoom"
 
       # Font exceptions kept in Homebrew (not managed by nixpkgs)
       "font-sf-mono"

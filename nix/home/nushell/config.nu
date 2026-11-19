@@ -57,21 +57,6 @@ def repository-prompt [] {
 let default_prompt = $env.PROMPT_COMMAND
 $env.PROMPT_COMMAND = {|| $'((do $default_prompt))(repository-prompt)' }
 
-$env.PROMPT_COMMAND_RIGHT = {||
-    let colors = if (config use-colors) {
-        {date: (ansi magenta), separator: (ansi green), fail: (ansi red_bold)}
-    } else {
-        {date: '', separator: '', fail: ''}
-    }
-    let time = (date now | format date '%a %b %d %H:%M:%S %Y'
-        | str replace --all ':' $'($colors.separator):($colors.date)')
-    let exit_code = ($env.LAST_EXIT_CODE? | default 0)
-    let failure = if $exit_code != 0 {
-        $'($colors.fail)($exit_code)'
-    } else { '' }
-    $'($failure) (ansi reset)($colors.date)($time)(ansi reset)'
-}
-
 alias hd = hunk diff
 alias rebuild = sudo -i darwin-rebuild switch --flake ~/dotfiles/nix#mac
 alias v = nvim

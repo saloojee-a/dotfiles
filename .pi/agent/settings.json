@@ -1,16 +1,10 @@
 {
   "defaultProvider": "openai",
-  "defaultModel": "gpt-6.1-sol",
+  "defaultModel": "gpt-6.2-sol",
   "defaultThinkingLevel": "medium",
   "theme": "system",
-  "themes": [
-    "~/dotfiles/.pi/agent/themes"
-  ],
-  "packages": [
-    "npm:pi-lens",
-    "npm:pi-web-access",
-    "npm:pi-goal-x"
-  ],
+  "themes": ["~/dotfiles/.pi/agent/themes"],
+  "packages": ["npm:pi-lens", "npm:pi-web-access", "npm:pi-goal-x"],
   "collapseChangelog": true,
   "installTelemetry": false,
   "hideThinkingBlock": true,
