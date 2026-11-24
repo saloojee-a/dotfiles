@@ -1,7 +1,8 @@
 /**
  * Lightweight deny-only workflow guard, not a sandbox.
- * Block gh, recognized remote Git/jj operations, commit/history creation, and
- * rm/cp writes outside Git/jj repositories. No approval prompts.
+ * Block gh, recognized Git/jj publication and commit/history creation,
+ * selected other remote operations, and rm/cp writes outside repositories.
+ * No approval prompts.
  * Aliases, configuration overrides, scripts and opaque programs are trusted;
  * this does not inspect their contents or prevent deliberate policy evasion.
  */
@@ -166,12 +167,13 @@ const jjCommits = new Set([
   "squash", "absorb", "rebase", "revert", "parallelize", "simplify-parents",
   "converge", "arrange", "sign", "unsign", "next", "prev",
 ]);
-const remoteCommands = new Set([
-  "push", "fetch", "pull", "clone", "ls-remote", "send-pack", "fetch-pack",
-  "http-push", "receive-pack", "upload-pack", "upload-archive", "cvsexportcommit",
-  "daemon",
+const protectedTransport = new Set([
+  "push", "send-pack", "fetch-pack", "http-push", "receive-pack", "upload-pack",
+  "upload-archive", "cvsexportcommit", "daemon",
 ]);
-const remoteDenied = () => deny("Remote Git/jj operations are user-run; do not retry through another tool");
+const helpFlags = new Set(["--help", "-h"]);
+const remoteDenied = () => deny("This Git/jj remote operation is user-run; do not retry through another tool");
+const commitsDenied = () => deny("Creating or rewriting commits is not allowed");
 
 function vcsDecision(tool: string, args: string[]): Decision {
   // Skip global options and their values to find the explicit subcommand.
@@ -185,14 +187,18 @@ function vcsDecision(tool: string, args: string[]): Decision {
   }
   const words = args.slice(i);
   const [sub = "", second = ""] = words;
-  if (!sub || sub === "help" || (words.length === 2 && ["--help", "-h"].includes(second))) return allow();
+  const jjTransport = tool === "jj" && (sub === "git" || sub === "gerrit");
+  // Match standalone help, not a help-looking message or other argument.
+  if (!sub || sub === "help" || (words.length === 2 && helpFlags.has(second)) ||
+      (jjTransport && words.length === 3 && helpFlags.has(words[2]))) return allow();
   if (tool === "git") {
-    if (remoteCommands.has(sub) || ["svn", "p4"].includes(sub) ||
+    if (protectedTransport.has(sub) || ["svn", "p4"].includes(sub) ||
         words.some((word) => word === "--remote" || word.startsWith("--remote=")) ||
-        (sub === "remote" && ["update", "show", "prune"].includes(second)) ||
-        (sub === "subtree" && ["push", "pull", "add"].includes(second)) ||
+        (sub === "remote" && ["update", "prune"].includes(second)) ||
+        (sub === "subtree" && second === "push") ||
         (sub === "submodule" && ["add", "update"].includes(second)) ||
-        (sub === "lfs" && remoteCommands.has(second))) return remoteDenied();
+        (sub === "lfs" && (protectedTransport.has(second) || second === "pull"))) return remoteDenied();
+    if (sub === "pull" || (sub === "subtree" && ["pull", "add"].includes(second))) return commitsDenied();
     if (gitCommits.has(sub)) {
       const inspection = (sub === "stash" && ["list", "show", "drop", "clear", "apply", "pop"].includes(second)) ||
         (sub === "notes" && ["", "list", "show", "get-ref"].includes(second));
@@ -200,10 +206,10 @@ function vcsDecision(tool: string, args: string[]): Decision {
         !words.some((word) => ["--continue", "--commit"].includes(word));
       const abort = ["merge", "rebase", "cherry-pick", "revert", "am"].includes(sub) &&
         words.length === 2 && ["--abort", "--quit"].includes(second);
-      if (!inspection && !noCommit && !abort) return deny("Creating or rewriting commits is not allowed");
+      if (!inspection && !noCommit && !abort) return commitsDenied();
     }
   } else {
-    if ((sub === "git" || sub === "gerrit") && remoteCommands.has(second)) return remoteDenied();
+    if (jjTransport && (protectedTransport.has(second) || second === "pull")) return remoteDenied();
     if (jjCommits.has(sub)) return deny("Creating or rewriting commits is not allowed (automatic working-copy snapshots are permitted)");
   }
   return allow();

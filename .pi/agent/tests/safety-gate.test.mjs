@@ -55,6 +55,7 @@ test("commit-producing workflows and remote writes cannot be approved", async ()
     "git commit -m '--help'", "jj new -m '-h'", "git merge -m --abort feature",
     "git merge -m --no-commit feature",
     "git merge feature", "git rebase main", "git cherry-pick abc", "git revert abc",
+    "git pull", "git pull --ff-only", "git subtree pull", "git subtree add",
     "git am changes.patch", "git stash", "git stash push", "git stash create",
     "git fast-import", "git notes add", "git filter-branch", "git replay main",
     "git merge --no-commit --commit feature", "git cherry-pick --no-commit --continue",
@@ -65,7 +66,7 @@ test("commit-producing workflows and remote writes cannot be approved", async ()
     "sudo git push", "timeout 5 git push", "xargs git push",
     "jj commit", "jj ci -m done", "jj new", "jj new --no-edit", "jj describe -m done",
     "jj desc -m done", "jj split", "jj squash", "jj rebase -d main", "jj duplicate @",
-    "jj git push", "jj git push --dry-run", "jj gerrit push",
+    "jj git push", "jj git push --dry-run", "jj git push -- --help", "jj gerrit push",
     "git status; git push", "git status && git commit -m done",
     "command git push", "env git push", "/usr/bin/git push",
     "git -C . --no-pager push", "git --git-dir=.git push", "git -c foo=bar push",
@@ -83,7 +84,7 @@ test("all unprotected commands follow Pi defaults without approval", async () =>
       "touch file", "mkdir -p dir", "mv old new", "chmod +x script",
       "echo text > file", "echo $HOME", "echo $(pwd)", "echo 'git push'",
       "find . -delete", "rg --pre script pattern", "powershell script",
-      "git status", "git reset --hard", "git add file",
+      "git status", "git reset --hard", "git add file", "git restore --staged file",
       "git config --global user.name Test", "git diff --output=/tmp/patch",
       "jj git import",
       "jj git export", "jj undo", "jj restore file", "git merge --abort",
@@ -92,16 +93,33 @@ test("all unprotected commands follow Pi defaults without approval", async () =>
   }
 });
 
-test("all recognized remote Git/jj operations are user-run", async () => {
+test("remote inspection and ordinary fetches and clones are allowed", async () => {
   for (const command of [
-    "git fetch", "git pull --ff-only", "git clone url", "git ls-remote",
-    "git remote update", "git remote show origin", "git remote prune origin",
-    "git submodule update --init", "git submodule add url",
-    "git lfs pull", "git lfs fetch", "git svn fetch", "git p4 sync",
-    "git subtree pull", "jj git fetch", "jj git clone url", "jj gerrit push",
+    "git fetch", "git clone url", "git ls-remote", "git remote show origin",
+    "git lfs fetch", "jj git fetch", "jj git clone url", "bash -lc 'git fetch'",
+  ]) await allowed(command);
+});
+
+test("protected remote operations remain user-run", async () => {
+  for (const command of [
+    "git remote update", "git remote prune origin", "git submodule update --init",
+    "git submodule add url", "git lfs pull", "git svn fetch", "git p4 sync",
     "git archive --remote=host HEAD",
-    "bash -lc 'git fetch'",
-  ]) await denied(command, /Remote|remote/);
+  ]) await denied(command, /remote/);
+});
+
+test("standalone help is allowed even for protected commands", async () => {
+  for (const command of [
+    "git push --help", "git commit -h", "jj commit --help",
+    "jj git push --help", "jj --ignore-working-copy git push -h",
+    "jj help git push",
+    `for d in . ../omniwerx-io; do printf '\\n--- %s ---\\n' "$d";
+      git -C "$d" status -sb; git -C "$d" remote -v;
+      git -C "$d" config --show-origin --get-regexp '^(remote\\..*\\.(push|pushurl|mirror)|branch\\..*\\.(remote|merge|pushremote)|push\\.|remote\\.pushdefault|core\\.sshcommand|url\\..*\\.(insteadof|pushinsteadof))' || :;
+      (cd "$d" && jj --ignore-working-copy bookmark list --all-remotes &&
+        jj --ignore-working-copy log -r '@ | main' --no-graph);
+    done; jj git push --help | rg -n -C 2 'dry-run|tracked|remote'`,
+  ]) await allowed(command);
 });
 
 test("all direct gh commands are blocked, including wrappers and nested shell calls", async () => {

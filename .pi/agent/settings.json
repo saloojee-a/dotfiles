@@ -3,13 +3,19 @@
   "defaultModel": "gpt-6.2-sol",
   "defaultThinkingLevel": "medium",
   "theme": "system",
-  "themes": ["~/dotfiles/.pi/agent/themes"],
-  "packages": ["npm:pi-lens", "npm:pi-web-access", "npm:pi-goal-x"],
+  "themes": [
+    "~/dotfiles/.pi/agent/themes"
+  ],
+  "packages": [
+    "npm:pi-lens",
+    "npm:pi-web-access",
+    "npm:pi-goal-x"
+  ],
   "collapseChangelog": true,
   "installTelemetry": false,
   "hideThinkingBlock": true,
   "quietStartup": true,
-  "lastChangelogVersion": "1.5.2",
+  "lastChangelogVersion": "1.6.0",
   "deviceId": "cb97121f-bbb4-4e70-99b6-f792c3fd06f9",
   "extensionChangelogVersions": {
     "{\"source\":\"npm:pi-lens\",\"scope\":\"user\"}": "4.4.11",

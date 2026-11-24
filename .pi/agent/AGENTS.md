@@ -14,7 +14,7 @@
 - Prefer targeted edits and practical previews. Use smaller checkpoints for large or high-risk tasks.
 - Run relevant permitted checks. Report what ran, what passed, and what remains untested; do not claim manual behavior checks you did not perform.
 - Hand off the result, changed files and reasons, design tradeoffs, verification, and review focus. Note scope deviations or overlap with existing work. Keep small-task summaries brief.
-- The user checks behavior, reviews the final diff in Hunk, requests fixes, and owns staging and Git/jj history or publication changes. Provide user-run commands when needed; normal jj working-copy snapshots are allowed. Offer walkthroughs or commit messages when asked.
+- The user checks behavior, reviews the final diff in Hunk, and requests fixes. Task-scoped Git/jj inspection, help, staging and unstaging, remote inspection, fetching, and cloning are allowed. Normal jj working-copy snapshots are allowed. The user owns creating or rewriting commits and publishing changes, including push dry runs. Follow safety-gate denials without retrying through another tool. Provide user-run commands when needed; offer walkthroughs or commit messages when asked.
 - Never run commands requiring `sudo` or a password; provide clearly labeled user-run steps instead.
 
 ## Tooling and formatting

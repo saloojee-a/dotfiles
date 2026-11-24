@@ -11,8 +11,9 @@ def repository-prompt [] {
             ^jj log --no-graph --color never -r @ -T 'change_id.shortest(8) ++ if(!empty, " *") ++ if(conflict, " !")' e> /dev/null | str trim
         } catch { '' })
         if ($state | is-empty) { return '' }
+        # Start from the parents so edits in @ don't count as outgoing commits.
         let outgoing = (try {
-            ^jj log --ignore-working-copy --no-graph --color never --limit 1 -r '::@ ~ immutable() ~ ::remote_bookmarks(remote=origin) ~ empty()' -T '" ↑"' e> /dev/null
+            ^jj log --ignore-working-copy --no-graph --color never --limit 1 -r '::(@-) ~ immutable() ~ ::remote_bookmarks(remote=origin) ~ empty()' -T '" ↑"' e> /dev/null
         } catch { '' })
         return $' [jj ($state)($outgoing)]'
     }
